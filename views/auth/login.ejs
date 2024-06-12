@@ -1,0 +1,16 @@
+<% layout('layouts/boilerplate')%>
+<h1 class="text-center my-4">Prijavi se</h1>
+<form action="/auth/login" method="POST" class="bg-secondary text-white w-75 mx-auto form-control py-3 validated-form" novalidate>
+    <div class="mb-3">
+        <label class="form-label" for="username">Korisničko ime:</label>
+        <input class="form-control" type="text" id="username" name="username" required>
+        
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label" for="password">Lozinka:</label>
+        <input class="form-control" type="password" id="password" name="password" required>
+        
+    </div>
+    <button class="btn btn-success">Prijavi se</button>
+</form>
