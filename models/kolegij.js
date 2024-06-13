@@ -6,18 +6,20 @@ const Schema = mongoose.Schema;
 const KolegijSchema = new Schema({
     naziv: String,
     nositelj: String,
-    studenti: [{ type: Schema.Types.ObjectId, ref:'Student' }],
+    studenti: [{ type: Schema.Types.ObjectId, ref: 'Student' }],
     ispiti: [{ type: Schema.Types.ObjectId, ref: 'Ispit' }]
 
 });
-KolegijSchema.post('findByIdAndDelete', async function(doc){
-    if(doc){
+KolegijSchema.post('findByIdAndDelete', async function (doc) {
+    if (doc) {
+        
         await Ispit.remove({
-            _id:{
-                $in: doc.ispiti                
+            _id: {
+                $in: doc.ispiti
             }
         })
-        
+
+
     }
 })
 

@@ -15,7 +15,7 @@
                 <%= kolegij.nositelj %>
             </h5>
             <h5 class="mt-4">
-                Ocjene
+                Prijavljeni ispiti
             </h5>
             <ul class="list-group mb-4">
                 <% if (prijavljeni) { %>
@@ -24,7 +24,7 @@
                             <% for( let rezultat of ispit.rezultati ) { %>
                                 <% if (rezultat.student.equals(student._id)) { %>
                                     <li key="<%= ispit._id %>" class="list-group-item">
-                                        <%= ispit.naslov %> - <%= rezultat.ocjena%>
+                                        <%= ispit.naslov + " / " + ispit.datum %> - ocjena: <%= rezultat.ocjena%>
                                     </li>
                                     <% } %>
                                         <% }%>

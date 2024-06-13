@@ -6,7 +6,7 @@
     <div class="kolegiji d-flex flex-column pt-4">
     <% for(let student of studenti){ %>
         <% if (student.username!=="admin") { %>
-            <a class="form-control text-start text-decoration-none text-black mb-2 hover:bg-primary" href="/admin/studenti/<%= student._id  %>"><%= student.ime %> <%= student.prezime  %></a>
+            <div class="form-control mb-2"><a class="nav-link text-start text-decoration-none text-black " href="/admin/studenti/<%= student._id  %>"><%= student.ime %> <%= student.prezime  %></a></div>
         <% } %>
 
     <% } %>

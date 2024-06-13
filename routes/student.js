@@ -63,7 +63,7 @@ router.post('/ispiti/prijava', isLoggedIn, catchAsync(async (req, res) => {
         const { studentId, ispitId, kolegijId } = req.body;
         const ispit = await Ispit.findById(ispitId);
         const student = await Student.findById(studentId);
-        ispit.rezultati.push({ student: studentId, ocjena: 5 });
+        ispit.rezultati.push({ student: studentId, ocjena:null });
         await ispit.save();
         res.redirect(`/student/${kolegijId}/${studentId}`)
     }
