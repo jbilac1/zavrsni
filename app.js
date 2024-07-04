@@ -15,6 +15,8 @@ const authRoutes = require('./routes/auth.js');
 const passport = require("passport")
 const LocalStrategy = require("passport-local")
 const Student = require('./models/student.js')
+const Admin = require('./models/admin.js');
+const User = require('./models/user.js')
 
 mongoose.connect('mongodb+srv://jbilac:fDQKg55JOf9sEzEQ@cluster0.uwsyqnu.mongodb.net/zavrsni?retryWrites=true&w=majority&appName=Cluster0');
 
@@ -35,7 +37,7 @@ app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 const sessionConfig = {
-    secret: 'thisshouldbeabettersecret!',
+    secret: 'tajnarijec!',
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -44,25 +46,27 @@ const sessionConfig = {
         maxAge: 1000 * 60 * 60 * 24 * 7
     }
 }
-app.use(session(sessionConfig))
+
+app.use(session(sessionConfig));
 app.use(flash());
 
+// Middleware za inicijalizaciju Passport.js
 app.use(passport.initialize());
-app.use(passport.session());
-passport.use(new LocalStrategy(Student.authenticate()));
 
-passport.serializeUser(Student.serializeUser());
-passport.deserializeUser(Student.deserializeUser());
+// Middleware za upravljanje Passport.js sesijama
+app.use(passport.session());
+
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next)=>{
-    if (!['/auth/login', '/'].includes(req.originalUrl)) {
-        req.session.returnTo = req.originalUrl;
-    }
     res.locals.currentUser = req.user;
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
     next(); 
-})
+});
 app.use('/auth', authRoutes);
 app.use('/student', studentRoutes);
 app.use('/admin', adminRoutes);
@@ -70,9 +74,6 @@ app.use('/admin', adminRoutes);
 app.get('/', (req, res) => {
     res.render('home');
 })
-
-
-
 
 //hvata sve putanje koje nisu deklarirane i vraca prozor sa ispisom pogreske (404)
 app.all('*', (req, res, next) => {

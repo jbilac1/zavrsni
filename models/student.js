@@ -19,6 +19,6 @@ const StudentSchema = new Schema({
     }]
 
 });
-StudentSchema.plugin(passportLocalMongoose);
+/* StudentSchema.plugin(passportLocalMongoose); */
 
 module.exports = mongoose.model('Student', StudentSchema);

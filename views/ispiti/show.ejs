@@ -17,7 +17,7 @@
         <ul class="list-group">
             <% for( let r of ispit.rezultati) { %>
                 <li class="list-group-item d-flex flex-wrap justify-content-between">
-                    <p><%= r.student + " - " + (r.ocjena ? "ocjena: "+r.ocjena : "") %></p> 
+                    <p class="mb-sm-0 d-flex align-items-center"><%= r.student + " - " + (r.ocjena ? "ocjena: "+r.ocjena : "") %></p> 
                     <form class="d-flex" action="/admin/ispiti/<%= ispit._id %>/ocjeni/<%= r.student %>" method="POST">
                         <select class="form-select me-2" name="ocjena" id="ocjena">
                             <option value="1">1</option>

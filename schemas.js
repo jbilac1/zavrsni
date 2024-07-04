@@ -16,3 +16,11 @@ module.exports.studentSchema = Joi.object({
         dob: Joi.number().required()
     }).required()
 })
+module.exports.adminSchema = Joi.object({
+    student: Joi.object({
+        ime: Joi.string().required(),
+        prezime: Joi.string().required(),
+        email: Joi.string().required(),
+             
+    }).required()
+})
