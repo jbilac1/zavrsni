@@ -71,7 +71,6 @@ router.post('/login', passport.authenticate('local', { failureFlash: true, failu
 router.get('/logout', (req, res) => {
     req.logout((e) => 'callback');
     req.flash('success', "Doviđenja!");
-    console.log(req.user);
     res.redirect('/auth/login');
 })
 

@@ -73,8 +73,6 @@ router.get('/kolegiji/:id', isLoggedIn, isAdmin, catchAsync(async (req, res) => 
 }));
 
 
-// Routes for Ispit putanje koje koristi admin za izradu novog ispita za određeni kolegij
-
 
 
 //Prikaz stranice za uređivanje kolegija
@@ -95,7 +93,6 @@ router.put('/kolegiji/:id', isLoggedIn, isAdmin, provjeriKolegij, catchAsync(asy
 
 //dodavanje novog ispita za određeni kolegij
 router.post('/kolegiji/:kolegijId/ispiti', isLoggedIn, isAdmin, catchAsync(async (req, res) => {
-
     const { naslov, datum } = req.body.ispit;
     const ispit = new Ispit({ naslov, datum, kolegij: req.params.kolegijId });
     await ispit.save();
@@ -110,7 +107,6 @@ router.post('/kolegiji/:kolegijId/ispiti', isLoggedIn, isAdmin, catchAsync(async
 
 //upisivanje studenta u kolegij
 router.post('/kolegiji/:id/student', isLoggedIn, isAdmin, catchAsync(async (req, res) => {
-
     const kolegij = await Kolegij.findById(req.params.id);
     const student = await Student.findById(req.body.studentId);
     kolegij.studenti.push(student);
@@ -125,7 +121,6 @@ router.post('/kolegiji/:id/student', isLoggedIn, isAdmin, catchAsync(async (req,
 
 //Brisanje kolegija
 router.delete('/kolegiji/:id', isLoggedIn, isAdmin, catchAsync(async (req, res) => {
-
     const { id } = req.params;
     const kolegij = await Kolegij.findById(id).populate('studenti')
     console.log(kolegij.studenti.length)
@@ -150,7 +145,6 @@ router.delete('/kolegiji/:id', isLoggedIn, isAdmin, catchAsync(async (req, res) 
 //studentRoutes
 //dohvat svih studenata
 router.get('/studenti', isLoggedIn, isAdmin, catchAsync(async (req, res) => {
-
     const studenti = await Student.find({}).populate('kolegiji');
     res.render('studenti/index', { studenti });
 
@@ -170,7 +164,6 @@ router.get('/studenti', isLoggedIn, isAdmin, catchAsync(async (req, res) => {
 
 //putanja za dodavanje novog studenta
 router.post('/studenti', isLoggedIn, isAdmin, provjeriStudenta, catchAsync(async (req, res, next) => {
-
     const student = new Student(req.body.student);
     await student.save();
     req.flash('success', 'Uspješna izrada novog studenta!');
@@ -188,7 +181,6 @@ router.get('/studenti/:id', isLoggedIn, isAdmin, catchAsync(async (req, res) => 
 
 //prikaz edit stranice studenta
 router.get('/studenti/edit/:id', isLoggedIn, isAdmin, catchAsync(async (req, res) => {
-
     const kolegiji = await Kolegij.find({});
     const student = await Student.findById(req.params.id).populate('kolegiji');
     res.render('studenti/edit', { student, kolegiji });
@@ -198,7 +190,6 @@ router.get('/studenti/edit/:id', isLoggedIn, isAdmin, catchAsync(async (req, res
 
 //putanja koja obavlja proces spremanja novih vrijednosti za odredenog studenta
 router.put('/studenti/:id', isLoggedIn, isAdmin, provjeriStudenta, catchAsync(async (req, res, next) => {
-
     const { id } = req.params;
     const student = await Student.findByIdAndUpdate(id, { ...req.body.student });
     student.kolegiji.push(req.body.kolegij);
@@ -211,7 +202,6 @@ router.put('/studenti/:id', isLoggedIn, isAdmin, provjeriStudenta, catchAsync(as
 
 //putanja za brisanje studenta
 router.delete('/studenti/:id', isLoggedIn, isAdmin, catchAsync(async (req, res) => {
-
     const { id } = req.params;
     const student = await Student.findById(id);
 
@@ -229,13 +219,11 @@ router.delete('/studenti/:id', isLoggedIn, isAdmin, catchAsync(async (req, res) 
 
 }))
 router.get('/ispiti', isLoggedIn, isAdmin, async (req, res) => {
-
     const ispiti = await Ispit.find({}).populate('kolegij');
     res.render('ispiti/index', { ispiti })
 
 })
 router.get('/ispiti/:id', isLoggedIn, isAdmin, async (req, res) => {
-
     const { id } = req.params;
     const ispit = await Ispit.findById(id).populate('kolegij').populate('rezultati');
     res.render('ispiti/show', { ispit })
