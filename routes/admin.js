@@ -8,6 +8,7 @@ const { isLoggedIn, isAdmin } = require('../middleware.js');
 const Ispit = require('../models/ispit');
 const Student = require('../models/student');
 const Kolegij = require('../models/kolegij');
+const Admin = require('../models/admin');
 
 const provjeriKolegij = (req, res, next) => {
     const { error } = kolegijSchema.validate(req.body);
@@ -46,14 +47,15 @@ router.get('/kolegiji', isLoggedIn, isAdmin, catchAsync(async (req, res) => {
 }))
 
 //forma za izradu novog kolegija
-router.get('/kolegiji/new', isLoggedIn, isAdmin, (req, res) => {
-    res.render(`kolegiji/new`);
+router.get('/kolegiji/new', isLoggedIn, isAdmin, async (req, res) => {
+    const nositelji = await Admin.find({});
+    res.render(`kolegiji/new`, {nositelji});
 
 })
 
 //Prikaz stranice jednog kolegija
 router.get('/kolegiji/:id', isLoggedIn, isAdmin, catchAsync(async (req, res) => {
-    const kolegij = await Kolegij.findById(req.params.id).populate('ispiti').populate('studenti');
+    const kolegij = await Kolegij.findById(req.params.id).populate('ispiti').populate('studenti').populate('nositelj');
     const studenti = await Student.find({}).populate('kolegiji');
     const neupisani = [{}]
     let pomocna = false;
@@ -77,8 +79,9 @@ router.get('/kolegiji/:id', isLoggedIn, isAdmin, catchAsync(async (req, res) => 
 
 //Prikaz stranice za uređivanje kolegija
 router.get('/kolegiji/edit/:id', isLoggedIn, isAdmin, catchAsync(async (req, res) => {
-    const kolegij = await Kolegij.findById(req.params.id).populate('ispiti').populate('studenti');
-    res.render('kolegiji/edit', { kolegij });
+    const nositelji = await Admin.find({});
+    const kolegij = await Kolegij.findById(req.params.id).populate('ispiti').populate('studenti').populate('nositelj');
+    res.render('kolegiji/edit', { kolegij, nositelji });
 
 
 }))

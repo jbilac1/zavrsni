@@ -8,11 +8,16 @@
         </div>
         <div class="mb-3">
             <label for="naziv">Nositelj:</label>
-            <input class="form-control" type="text" name="kolegij[nositelj]" id="nositelj" required>
+            <select name="kolegij[nositelj]" id="nositelj" class="form-control" required>
+                <% for( n of nositelji ) { %>
+                    <option value="<%= n._id %>"><%= n.ime + " " + n.prezime %></option>
+                <% } %>
+            </select>
+            <!-- <input class="form-control" type="text" name="kolegij[nositelj]" id="nositelj" required> -->
         </div>
         <div>
-            <button class="btn btn-success mb-2 mb-md-0">Dodaj kolegij</button>
-            <a href="/admin/kolegiji" class="btn btn-secondary">Povratak</a>
+            <button class="btn btn-success ">Dodaj kolegij</button>
+            <a href="/admin/kolegiji" class="btn btn-secondary mt-sm-2 mt-0 ">Povratak</a>
         </div>
     </form>
     

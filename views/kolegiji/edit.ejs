@@ -11,8 +11,11 @@
         </div>
         <div class="mb-3">
             <label for="naziv">Nositelj: </label>
-            <input class="form-control" type="text" id="nositelj" name="kolegij[nositelj]"
-                value="<%= kolegij.nositelj %>" required>
+            <select name="kolegij[nositelj]" id="nositelj" class="form-control" required>
+                <% for( n of nositelji ) { %>
+                    <option value="<%= n._id %>"><%= n.ime + " " + n.prezime %></option>
+                <% } %>
+            </select>
             
         </div>
         <div class="d-flex flex-wrap mb-2">
